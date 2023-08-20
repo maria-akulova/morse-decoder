@@ -38,7 +38,33 @@ const MORSE_TABLE = {
 };
 
 function decode(expr) {
-    // write your solution here
+    let pattern = new RegExp(/.{10}/g);
+    let splittedArray  = [];
+    splittedArray = expr.match(pattern);
+    for (let i = 0; i < splittedArray.length; i++) {   
+        let morseStr = "";
+        let temp = "";     
+        if (splittedArray[i] === "**********") {
+            morseStr = " ";
+        } else {
+            temp = Array.from(splittedArray[i]).reverse();
+            for (let j = 0; j<temp.length; j+=2) { 
+                if (temp[j+1] !== undefined && (temp[j]+temp[j+1] !== "00"  ))  {
+                    morseStr+= (temp[j] === temp[j+1]) ? "-" : ".";
+                } else if (temp[j] === "1") {
+                    console.log("ERROR!");
+                }      
+            }
+        }        
+        splittedArray[i] = morseStr.split("").reverse().join("");
+    }
+    for (let k = 0; k<splittedArray.length; k++) {
+        splittedArray[k] = MORSE_TABLE[splittedArray[k]];
+        if (splittedArray[k] === undefined) {
+            splittedArray[k] = " ";
+        }
+    }
+    return splittedArray.join("");;
 }
 
 module.exports = {
